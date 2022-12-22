@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JavaScript - Table to Excel</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/js/all.min.js" integrity="sha512-naukR7I+Nk6gp7p5TMA4ycgfxaZBJ7MO5iC3Fp6ySQyKFHOGfpkSZkYVWV5R7u7cfAicxanwYQ5D1e17EfJcMA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
+
+    <style>
+        html, body{
+            height: 100%;
+            width: 100%;
+        }
+        body{
+            display: flex;
+            height: 100%;
+            width: 100%;
+            flex-direction: column;
+        }
+        body>nav, body>footer{
+            flex-shrink: 1;
+        }
+        body>main{
+            flex-shrink: 1;
+            flex-grow: 1;
+            overflow: auto;
+            margin: 1em 0;
+        }
+        pre{
+            min-height:20vh
+        }
+    </style>
+</head>
+<body style="background:#eff3fc">
+    <nav class="navbar navbar-expand-lg navbar-dark" style="background:#495C83">
+        <div class="container">
+            <a class="navbar-brand" href="./">JavaScript - Table to Excel</a>
+            <div>
+                <a href="https://sourcecodester.com" class="text-light fw-bolder h6 text-decoration-none" target="_blank">SourceCodester</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container-fluid">
+        <div class="col-lg-10 col-md-11 col-sm-12 col-xs-12 mx-auto">
+            <h2 class="text-center">Exporting Table to Excel using JavaScript</h2>
+            <hr>
+
+            <div class="card mt-3 rounded-0">
+                <div class="card-header">
+                    <div class="d-flex justify-content-between align-items-end">
+                        <div class="col-auto flex-shrink-1 flex-grow-1">
+                            <div class="card-title"><b>Sample HTML Table Data</b></div>
+                        </div>
+                        <div class="col-auto flex-shrink-1">
+                            <button class="btn btn-sm btn-primary rounded-0 btn-success bg-gradient bg-success me-2" id="exportTable">Export to Excel</button>
+                            <button class="btn btn-sm btn-primary rounded-0 btn-primary bg-gradient bg-primary" id="exportTableCSV">Export to CSV</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body rounded-0">
+                    <div class="container-fluid">
+                        <div class="table-responsive">
+                            <table class="table table-hover table-striped table-bordered" id="exampleTbl">
+                                <thead>
+                                    <tr class="bg-gradient bg-primary text-light">
+                                        <th class="text-center px-2 py1">Name</th>
+                                        <th class="text-center px-2 py1">Phone</th>
+                                        <th class="text-center px-2 py1">Email</th>
+                                        <th class="text-center px-2 py1">Address</th>
+                                        <th class="text-center px-2 py1">Region</th>
+                                        <th class="text-center px-2 py1">Postal</th>
+                                        <th class="text-center px-2 py1">Country</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class="px-2 py-1">Aquila Buckner</td>
+                                        <td class="px-2 py-1">1-606-851-8687</td>
+                                        <td class="px-2 py-1">cras.pellentesque.sed@yahoo.net</td>
+                                        <td class="px-2 py-1">2784 Lorem, St.</td>
+                                        <td class="px-2 py-1">Noord Holland</td>
+                                        <td class="px-2 py-1">41381</td>
+                                        <td class="px-2 py-1">France</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="px-2 py-1">Joseph Mclaughlin</td>
+                                        <td class="px-2 py-1">(287) 727-2636</td>
+                                        <td class="px-2 py-1">sed.nunc@yahoo.net</td>
+                                        <td class="px-2 py-1">Ap #299-1793 Enim Avenue</td>
+                                        <td class="px-2 py-1">Västra Götalands län</td>
+                                        <td class="px-2 py-1">15-933</td>
+                                        <td class="px-2 py-1">Netherlands</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="px-2 py-1">Freya Gilbert</td>
+                                        <td class="px-2 py-1">1-962-676-7616</td>
+                                        <td class="px-2 py-1">aliquet.magna@icloud.edu</td>
+                                        <td class="px-2 py-1">724-3255 Praesent Avenue</td>
+                                        <td class="px-2 py-1">North Jeolla</td>
+                                        <td class="px-2 py-1">218533</td>
+                                        <td class="px-2 py-1">Turkey</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="px-2 py-1">Zephania Hancock</td>
+                                        <td class="px-2 py-1">(543) 609-4676</td>
+                                        <td class="px-2 py-1">orci.consectetuer.euismod@yahoo.com</td>
+                                        <td class="px-2 py-1">Ap #907-4861 Gravida St.</td>
+                                        <td class="px-2 py-1">Carinthia</td>
+                                        <td class="px-2 py-1">892505</td>
+                                        <td class="px-2 py-1">India</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="px-2 py-1">Michelle Bowman</td>
+                                        <td class="px-2 py-1">1-906-704-3417</td>
+                                        <td class="px-2 py-1">lorem@outlook.com</td>
+                                        <td class="px-2 py-1">Ap #705-2692 Diam. Avenue</td>
+                                        <td class="px-2 py-1">Quebec</td>
+                                        <td class="px-2 py-1">87856-202</td>
+                                        <td class="px-2 py-1">United States</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="px-2 py-1">Hadassah Lyons</td>
+                                        <td class="px-2 py-1">1-491-838-9458</td>
+                                        <td class="px-2 py-1">ut.sagittis.lobortis@aol.com</td>
+                                        <td class="px-2 py-1">P.O. Box 810, 2499 Hendrerit. Avenue</td>
+                                        <td class="px-2 py-1">Tarapacá</td>
+                                        <td class="px-2 py-1">8114</td>
+                                        <td class="px-2 py-1">Canada</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="px-2 py-1">Grady King</td>
+                                        <td class="px-2 py-1">(344) 638-3562</td>
+                                        <td class="px-2 py-1">ut.quam.vel@icloud.edu</td>
+                                        <td class="px-2 py-1">P.O. Box 257, 4844 Duis St.</td>
+                                        <td class="px-2 py-1">Ulster</td>
+                                        <td class="px-2 py-1">19766</td>
+                                        <td class="px-2 py-1">Belgium</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="px-2 py-1">Dorian Sears</td>
+                                        <td class="px-2 py-1">1-811-744-0878</td>
+                                        <td class="px-2 py-1">tristique@google.com</td>
+                                        <td class="px-2 py-1">544-2027 Volutpat Ave</td>
+                                        <td class="px-2 py-1">Western Cape</td>
+                                        <td class="px-2 py-1">16502</td>
+                                        <td class="px-2 py-1">Brazil</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="px-2 py-1">Joseph Mejia</td>
+                                        <td class="px-2 py-1">(908) 607-5580</td>
+                                        <td class="px-2 py-1">dolor.nulla.semper@hotmail.org</td>
+                                        <td class="px-2 py-1">6403 Nulla Av.</td>
+                                        <td class="px-2 py-1">Kansas</td>
+                                        <td class="px-2 py-1">30724</td>
+                                        <td class="px-2 py-1">France</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="px-2 py-1">Lesley Walter</td>
+                                        <td class="px-2 py-1">1-368-720-4221</td>
+                                        <td class="px-2 py-1">proin.vel.nisl@outlook.couk</td>
+                                        <td class="px-2 py-1">Ap #639-9148 Odio. Road</td>
+                                        <td class="px-2 py-1">Zhōngnán</td>
+                                        <td class="px-2 py-1">36638</td>
+                                        <td class="px-2 py-1">Italy</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="px-2 py-1">Mufutau Mack</td>
+                                        <td class="px-2 py-1">(282) 276-8465</td>
+                                        <td class="px-2 py-1">non.quam@protonmail.ca</td>
+                                        <td class="px-2 py-1">151 Accumsan Road</td>
+                                        <td class="px-2 py-1">Canarias</td>
+                                        <td class="px-2 py-1">410816</td>
+                                        <td class="px-2 py-1">Canada</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="px-2 py-1">Leah Sosa</td>
+                                        <td class="px-2 py-1">1-844-322-1643</td>
+                                        <td class="px-2 py-1">quam@google.com</td>
+                                        <td class="px-2 py-1">Ap #574-8034 Phasellus St.</td>
+                                        <td class="px-2 py-1">Central Region</td>
+                                        <td class="px-2 py-1">UU0J 8FN</td>
+                                        <td class="px-2 py-1">Australia</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="px-2 py-1">Moana Dickson</td>
+                                        <td class="px-2 py-1">(951) 105-1941</td>
+                                        <td class="px-2 py-1">id.ante@outlook.org</td>
+                                        <td class="px-2 py-1">8059 Montes, St.</td>
+                                        <td class="px-2 py-1">North Island</td>
+                                        <td class="px-2 py-1">65653-276</td>
+                                        <td class="px-2 py-1">Ireland</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="px-2 py-1">Unity Jennings</td>
+                                        <td class="px-2 py-1">(720) 168-6976</td>
+                                        <td class="px-2 py-1">proin.velit@aol.ca</td>
+                                        <td class="px-2 py-1">Ap #562-1244 Est Street</td>
+                                        <td class="px-2 py-1">North Island</td>
+                                        <td class="px-2 py-1">5558 DT</td>
+                                        <td class="px-2 py-1">Brazil</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="px-2 py-1">Kelsey Kennedy</td>
+                                        <td class="px-2 py-1">(541) 523-4605</td>
+                                        <td class="px-2 py-1">consequat.dolor.vitae@protonmail.edu</td>
+                                        <td class="px-2 py-1">879-8761 Magna. Av.</td>
+                                        <td class="px-2 py-1">Free State</td>
+                                        <td class="px-2 py-1">192345</td>
+                                        <td class="px-2 py-1">Nigeria</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="px-2 py-1">Rajah Mercado</td>
+                                        <td class="px-2 py-1">1-355-558-8976</td>
+                                        <td class="px-2 py-1">sem.pellentesque@yahoo.couk</td>
+                                        <td class="px-2 py-1">2254 Purus Av.</td>
+                                        <td class="px-2 py-1">Tarapacá</td>
+                                        <td class="px-2 py-1">47877-808</td>
+                                        <td class="px-2 py-1">United Kingdom</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="px-2 py-1">William Mays</td>
+                                        <td class="px-2 py-1">(475) 524-6242</td>
+                                        <td class="px-2 py-1">libero.mauris@protonmail.org</td>
+                                        <td class="px-2 py-1">P.O. Box 577, 8281 Enim. Ave</td>
+                                        <td class="px-2 py-1">West Region</td>
+                                        <td class="px-2 py-1">983619</td>
+                                        <td class="px-2 py-1">Chile</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="px-2 py-1">Quamar Justice</td>
+                                        <td class="px-2 py-1">(538) 814-4350</td>
+                                        <td class="px-2 py-1">quis.tristique@icloud.edu</td>
+                                        <td class="px-2 py-1">611-2564 Mollis Av.</td>
+                                        <td class="px-2 py-1">Hampshire</td>
+                                        <td class="px-2 py-1">393011</td>
+                                        <td class="px-2 py-1">Canada</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="px-2 py-1">Quinn Knapp</td>
+                                        <td class="px-2 py-1">1-515-500-7118</td>
+                                        <td class="px-2 py-1">ridiculus@icloud.couk</td>
+                                        <td class="px-2 py-1">Ap #486-2817 Sed Av.</td>
+                                        <td class="px-2 py-1">Manisa</td>
+                                        <td class="px-2 py-1">513128</td>
+                                        <td class="px-2 py-1">Turkey</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="px-2 py-1">Calista Rose</td>
+                                        <td class="px-2 py-1">(416) 485-7812</td>
+                                        <td class="px-2 py-1">donec.tincidunt@yahoo.com</td>
+                                        <td class="px-2 py-1">Ap #324-8643 Nisi Rd.</td>
+                                        <td class="px-2 py-1">Amazonas</td>
+                                        <td class="px-2 py-1">840686</td>
+                                        <td class="px-2 py-1">New Zealand</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+<footer class="container-fluid py-3" style="background:#495C83; color:#fff">
+    <div class="container-fluid my-2">
+        <div class="text-center">
+            <b>JavaScript - Table to Excel &copy; 2022</b>
+        </div>
+    </div>
+</footer>
+</body>
+<script src="script.js"></script>
+</html>
